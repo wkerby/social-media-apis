@@ -1,6 +1,5 @@
 const express = require('express');
 const db = require('./config/connection');
-const mongodb = require('mongodb');
 const routes = require('./routes');
 // import sequelize connection
 
@@ -16,3 +15,9 @@ app.use(routes);
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
+
+db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+    });
+  });
