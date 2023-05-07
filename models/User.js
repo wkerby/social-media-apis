@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true, trim: true},
     email: { type: String, unique: true, required: true, trim: true, validate: { validator: validateEmail, message: "Please provide a valid email address" }, 
     thoughts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thought'}],
-    friends: [{type:mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 }},
 {
     toJSON: {
@@ -21,7 +21,14 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.virtual('friendCount').get(function () {
-    return this.friends.length;
+    if (this.friends) {
+        return this.friends.length;
+    }
+
+    else {
+        return 0;
+    }
+    
 });
 
 const User = mongoose.model('User', userSchema);
