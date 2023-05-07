@@ -20,4 +20,4 @@ const getCurrDate = () => { //create a function that retrieves the created date 
 reactionSchema.virtual('dateCreated').get(getCurrDate); //use function in virtual 
 
 const Reaction = mongoose.model('Reaction', reactionSchema);
-module.exports = Reaction;
+module.exports = Reaction; 

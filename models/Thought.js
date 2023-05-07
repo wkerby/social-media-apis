@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const thoughtSchema = new mongoose.Schema({
     thoughtText: { type: String, required: true, min:1, max:280},
     // createdAt: { type: Date, default: today },
-    username: { type: String, required: true, unique: true, ref: 'User'},
+    username: { type: String, required: true},
     reactions: [Reaction.schema]
 },
 {
@@ -21,7 +21,9 @@ const getCurrDate = () => { //create a function that retrieves the created date 
 }
 
 thoughtSchema.virtual('dateCreated').get(getCurrDate); //use function in virtual 
-
+thoughtSchema.virtual('reactionCount').get(function () {
+    return this.reactions.length;
+});
 const Thought = mongoose.model('Thought', thoughtSchema);
 
 module.exports = Thought; 
