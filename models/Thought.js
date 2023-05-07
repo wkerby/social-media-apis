@@ -1,8 +1,15 @@
+//create var for current date and time
+const date = new Date();
+const today = date.toLocaleString();
 //require in mongoose
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const thoughtSchema = new mongoose.Schema({
     thoughtText: { type: String, required: true, min:1, max:280},
-    email: { type: String, unique: true, required: true, trim: true, validate: [validateEmail, "Please provide a valid email address"]}, 
-    thoughts: { type: Array, }
+    createdAt: { type: Date, default: today },
+    username: { type: String, required: true},
 })
+
+const Thought = mongoose.model('Thought', thoughtSchema);
+
+module.exports = Thought; 
