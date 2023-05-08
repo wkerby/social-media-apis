@@ -21,7 +21,7 @@ router.get('/:id', async (req,res) => {
     console.log("Attempting to get a user by id");
     try {
         const userId = req.params.id;
-        const specUser = await User.findOne({userId});
+        const specUser = await User.findOne({_id: userId});
 
         if (!specUser) {
             res.status(404).json( {message: "no user found with that id"});
