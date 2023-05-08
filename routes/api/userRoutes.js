@@ -106,5 +106,30 @@ router.delete('/:id', async (req,res) => {
     }
 })
 
+//add a friend
+router.post('/:userId/friends/:friendId', async (req,res) => {
+    console.log("attempting to add friend");
+    try {
+        const userId = req.params.userId;
+        const friendId = req.params.friendId;
+        const addFriend = await User.findByIdAndUpdate(userId,
+            {$push: {friends: friendId}},
+            {new:true, runValidators:true});
+        if (!addFriend) {
+            res.status(404).json({message: "Oops! one or both ids not recognized."});
+            return;
+        }
+        else {
+            res.status(200).json(addFriend);
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+
+})
+
 
 module.exports = router;
