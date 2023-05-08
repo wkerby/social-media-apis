@@ -70,6 +70,7 @@ router.put('/:id', async (req,res) => {
         });
         if (!updatedUser) {
             res.status(404).json({message:"Oops! Something went wrong."});
+            return;
         }
         else {
             res.status(201).json(updatedUser)
@@ -90,7 +91,11 @@ router.delete('/:id', async (req,res) => {
         const userId = req.params.id;
         const delUser = await User.findOneAndDelete({_id: userId});
         if (!delUser) {
-            
+            res.status(404).json({message: "Oops! No user found with that id."});
+            return;
+        }
+        else {
+            res.status(200).json({message: "user deleted successfully!"});
         }
 
     }
