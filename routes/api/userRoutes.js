@@ -14,7 +14,7 @@ router.get('/', async (req,res) => {
         console.log(err);
         res.status(500).json(err);
     }
-})
+});
 
 //get a user by user id
 router.get('/:id', async (req,res) => {
@@ -37,7 +37,10 @@ router.get('/:id', async (req,res) => {
         console.log(err);
         res.status(500).json(err);
     }
-})
+});
+
+//create a new user
+
 
 
 module.exports = router;
