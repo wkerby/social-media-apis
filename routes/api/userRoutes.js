@@ -7,7 +7,7 @@ const {User, Thought} = require("../../models");
 router.get('/', async (req,res) => {
     console.log("Attempting to get all users")
     try {
-        const findUsers = await User.find({});
+        const findUsers = await User.find({}).populate({path:'thoughts',select:'-__v'}).populate({path:'friends',select:'-__v'});
         res.status(200).json(findUsers);
     }
     catch (err) {
@@ -21,7 +21,7 @@ router.get('/:id', async (req,res) => {
     console.log("Attempting to get a user by id");
     try {
         const userId = req.params.id;
-        const specUser = await User.findOne({_id: userId});
+        const specUser = await User.findOne({_id: userId}).populate({path:'friends',select:'-__v'}).populate({path:'friends',select:'-__v'});
 
         if (!specUser) {
             res.status(404).json( {message: "no user found with that id"});
