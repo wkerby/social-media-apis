@@ -59,5 +59,29 @@ router.post('/', async (req,res) => {
     }
 });
 
+//update user with provided id
+router.put('/:id', async (req,res) => {
+    console.log("attempting to update user");
+    try {
+        const userId = req.params.id;
+        const updatedUser = await User.findOneAndUpdate({_id: userId}, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        if (!updatedUser) {
+            res.status(404).json({message:"Oops! Something went wrong."});
+        }
+        else {
+            res.status(201).json(updatedUser)
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+
+})
+
 
 module.exports = router;
