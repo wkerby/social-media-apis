@@ -40,7 +40,24 @@ router.get('/:id', async (req,res) => {
 });
 
 //create a new user
+router.post('/', async (req,res) => {
+    console.log("attempting to create new user");
+    try {
+        const newUser = await new User({
+            username: req.body.username,
+            email: req.body.email,
 
+        });
+        newUser.save();
+        res.status(201).json(newUser)
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+});
 
 
 module.exports = router;
