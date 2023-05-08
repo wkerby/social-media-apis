@@ -4,33 +4,6 @@ const router = require('express').Router();
 const {User, Thought} = require("../../models");
 
 // get all users
-// router.get('/', async(req, res) => {
-//     console.log("attempting to get all users!")
-//     try {
-//         await User.find({}, (err, result));
-//         res.status(200).json(result);
-//     }
-
-//     catch (err) {
-//         console.log('Oops! Something went wrong!')
-//         console.log(err);
-//         res.status(500).json(err);
-//     }
-
-// })
-
-// router.get('/', (req, res) => {
-//   // Using model in route to find all documents that are instances of that model
-//   User.find({}, (err, result) => {
-//     if (result) {
-//       res.status(200).json(result);
-//     } else {
-//       console.log('Uh Oh, something went wrong');
-//       res.status(500).json({ error: 'Something went wrong' });
-//     }
-//   });
-// });
-
 router.get('/', async (req,res) => {
     console.log("Attempting to get all users")
     try {
@@ -42,5 +15,29 @@ router.get('/', async (req,res) => {
         res.status(500).json(err);
     }
 })
+
+//get a user by user id
+router.get('/:id', async (req,res) => {
+    console.log("Attempting to get a user by id");
+    try {
+        const userId = req.params.id;
+        const specUser = await User.findOne({userId});
+
+        if (!specUser) {
+            res.status(404).json( {message: "no user found with that id"});
+        }
+
+        else {
+            res.status(200).json(specUser)
+        }
+        
+    }
+    
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
 
 module.exports = router;
