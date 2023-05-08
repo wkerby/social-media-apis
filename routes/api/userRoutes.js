@@ -82,7 +82,7 @@ router.put('/:id', async (req,res) => {
 
     }
 
-})
+});
 
 //delete user by id
 router.delete('/:id', async (req,res) => {
@@ -104,7 +104,7 @@ router.delete('/:id', async (req,res) => {
         console.log(err);
         res.status(500).json(err);
     }
-})
+});
 
 //add a friend
 router.post('/:userId/friends/:friendId', async (req,res) => {
@@ -129,7 +129,32 @@ router.post('/:userId/friends/:friendId', async (req,res) => {
         res.status(500).json(err);
     }
 
-})
+});
+
+router.delete('/:userId/friends/:friendId', async (req,res) => {
+    console.log("attempting to delete friend");
+    try {
+        const userId = req.params.userId;
+        const friendId = req.params.friendId;
+        const delFriend = await User.findByIdAndUpdate(userId,
+            {$pull: {friends: friendId}},
+            {new:true, runValidators:true});
+        if (!delFriend) {
+            res.status(404).json({message: "Oops! one or both ids not recognized."});
+            return;
+        }
+        else {
+            res.status(200).json(delFriend);
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+
+});
+
 
 
 module.exports = router;
