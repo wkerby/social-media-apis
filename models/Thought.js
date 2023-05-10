@@ -1,15 +1,12 @@
-//require User model
-const User = require("./User");
-
 //require Reaction schema
 const Reaction = require("./Reaction");
 
-const mongoose = require('mongoose');
+const {Schema, model} = require('mongoose');
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
     thoughtText: { type: String, required: true, min:1, max:280},
     // createdAt: { type: Date, default: today },
-    username: { type: String, required: true, ref: 'User'},
+    username: { type: String, required: true},
     reactions: [Reaction.schema]
 },
 {
@@ -24,6 +21,6 @@ thoughtSchema.virtual('dateCreated').get(getCurrDate); //use function in virtual
 thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
-const Thought = mongoose.model('Thought', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought; 
