@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const thoughtSchema = new mongoose.Schema({
     thoughtText: { type: String, required: true, min:1, max:280},
     // createdAt: { type: Date, default: today },
-    username: { type: String, required: true},
+    username: { type: String, required: true, ref: 'User'},
     reactions: [Reaction.schema]
 },
 {

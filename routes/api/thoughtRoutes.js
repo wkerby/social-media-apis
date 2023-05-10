@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 //bring in the Thought model
-const { Thought } = require("../../models");
+const { Thought, User } = require("../../models");
 
 //get all thoughts
 router.get('/', async (req,res) => {
@@ -39,6 +39,34 @@ router.get('/:id', async (req,res) => {
     }
 });
 
+//create a new thought
+router.post('/', async (req,res) => {
+    console.log("attempting to create new thought");
+    try {
+        const newThought = await new Thought({
+            thoughtText: req.body.thoughtText,
+            username: req.body.username,
+
+        });
+        newThought.save();
+        const specThought = await User.findOneAndUpdate(
+            {_id: req.body.userId}, //takes the id for the user provided in req.body
+            {$push: {thought: newThought.id}}, //will add the new thought to the user's thought array
+            {new: true}
+        );
+        if (!specThought) {
+            res.status(404).json({message: "Oops! This user id does not exist."})
+        }
+
+        res.status(201).json(newThought)
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+});
 
 module.exports = router;
 
