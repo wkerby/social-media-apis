@@ -15,3 +15,30 @@ router.get('/', async (req,res) => {
         res.status(500).json(err);
     }
 });
+
+//get a thought by thought id
+router.get('/:id', async (req,res) => {
+    console.log("Attempting to get a user by id");
+    try {
+        const thoughtId = req.params.id;
+        const specThought = await Thought.findOne({_id: thoughtId}).populate({path:'reactions',select:'-__v'}).select('-__v');
+
+        if (!specThought) {
+            res.status(404).json( {message: "no user found with that id"});
+        }
+
+        else {
+            res.status(200).json(specThought)
+        }
+        
+    }
+    
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+
+
+
