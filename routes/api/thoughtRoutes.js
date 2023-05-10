@@ -43,7 +43,7 @@ router.get('/:id', async (req,res) => {
 router.post('/', async (req,res) => {
     console.log("attempting to create new thought");
     try {
-        const newThought = await new Thought({
+        const newThought = await new Thought({ //create new thought from json request body
             thoughtText: req.body.thoughtText,
             username: req.body.username,
 
@@ -69,4 +69,6 @@ router.post('/', async (req,res) => {
 });
 
 module.exports = router;
+
+
 
