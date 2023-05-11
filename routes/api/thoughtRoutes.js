@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 //bring in the Thought model
-const { Thought, User } = require("../../models");
+const { Thought, User, Reaction } = require("../../models");
 
 //get all thoughts
 router.get('/', async (req,res) => {
@@ -114,6 +114,12 @@ router.delete('/:id', async (req,res) => {
     
 }
 );
+
+//create a reaction stored in a single thought's reaction array field
+router.post('/:thoughtId/reactions', async(req,res) => {
+    const thoughtId = req.params.thoughtId;
+    const newReaction = await new Reaction
+})
 
 module.exports = router;
 

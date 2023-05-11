@@ -131,6 +131,7 @@ router.post('/:userId/friends/:friendId', async (req,res) => {
 
 });
 
+//remove a friend by friend id
 router.delete('/:userId/friends/:friendId', async (req,res) => {
     console.log("attempting to delete friend");
     try {
