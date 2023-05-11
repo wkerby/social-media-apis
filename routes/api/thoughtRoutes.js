@@ -95,10 +95,10 @@ router.put('/:id', async (req,res) => {
 
 //delete a thought by id
 router.delete('/:id', async (req,res) => {
-    console.log("attempting to delete user");
+    console.log("attempting to delete thought");
     try {
         const thoughtId = req.params.id;
-        const delThought = await User.findOneAndDelete({_id: thoughtId});
+        const delThought = await Thought.findOneAndDelete({_id: thoughtId});
         if (!delThought) {
             res.status(404).json({message: "Oops! No user found with that id."});
             return;
