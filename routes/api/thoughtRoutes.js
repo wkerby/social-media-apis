@@ -118,9 +118,14 @@ router.delete('/:id', async (req,res) => {
 //create a reaction stored in a single thought's reaction array field
 router.post('/:thoughtId/reactions', async(req,res) => {
     const thoughtId = req.params.thoughtId; //grab the though reaction off of the endpoint
+    const newReaction = await new Reaction({ //create new thought from json request body
+        reactionBody: req.body.reactionBody,
+        username: req.body.username,
+
+    });
     try {
         const specThought = await Thought.findOneAndUpdate({_id:thoughtId}, //searching for the thought by its id
-            {$push: {reactions: req.body}}, //this will take req.body object and use it to create a new reaction in the thought's reaction array
+            {$push: {reactions: newReaction}}, //this will take req.body object and use it to create a new reaction in the thought's reaction array
             {new: true, runValidators: true});
         
         if (!specThought) { //if the search comes up empty
