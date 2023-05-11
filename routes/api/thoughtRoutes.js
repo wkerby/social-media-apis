@@ -144,6 +144,17 @@ router.post('/:thoughtId/reactions', async(req,res) => {
     }
 })
 
+//delete a reaction by its reaction id
+router.delete('/:thoughtId/reactions/:reactionId', async (req,res) => {
+    const {thoughtId, reactionId} = req.params;
+    const specThought = Thought.findOneAndUpdate({_id:thoughtId}, //find a thought by its id
+        {$pull: { reaction: {_id: reactionId}}}, //find a reaction stored in a thought by reactionId
+        {new: true}
+        
+        );
+
+})
+
 module.exports = router;
 
 
