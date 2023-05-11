@@ -68,6 +68,31 @@ router.post('/', async (req,res) => {
     }
 });
 
+//update a thought by id
+router.put('/:id', async (req,res) => {
+    console.log("attempting to update thought");
+    try {
+        const thoughtId = req.params.id;
+        const updatedThought = await Thought.findOneAndUpdate({_id: thoughtId}, req.body, {
+            new: true,
+            runValidators: true, 
+        });
+        if (!updatedThought) {
+            res.status(404).json({message: "Oops! Something went wrong."});
+        }
+        else {
+            res.status(201).json(updatedThought)
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+
+});
+
 module.exports = router;
 
 
