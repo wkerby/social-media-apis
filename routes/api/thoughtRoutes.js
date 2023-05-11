@@ -97,9 +97,9 @@ router.put('/:id', async (req,res) => {
 router.delete('/:id', async (req,res) => {
     console.log("attempting to delete user");
     try {
-        const userId = req.params.id;
-        const delUser = await User.findOneAndDelete({_id: userId});
-        if (!delUser) {
+        const thoughtId = req.params.id;
+        const delThought = await User.findOneAndDelete({_id: thoughtId});
+        if (!delThought) {
             res.status(404).json({message: "Oops! No user found with that id."});
             return;
         }
@@ -107,6 +107,7 @@ router.delete('/:id', async (req,res) => {
             res.status(200).json({message: "user deleted successfully!"});
         }
     }
+}
 );
 
 module.exports = router;
