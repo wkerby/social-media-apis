@@ -147,12 +147,14 @@ router.post('/:thoughtId/reactions', async(req,res) => {
 //delete a reaction by its reaction id
 router.delete('/:thoughtId/reactions/:reactionId', async (req,res) => {
     const {thoughtId, reactionId} = req.params;
+    console.log(thoughtId);
+    console.log(reactionId);
     try {
-        const removeReact = Thought.findOneAndUpdate({_id:thoughtId}, //find a thought by its id
-        {$pull: { reaction: {_id: reactionId}}}, //find a reaction stored in a thought by reactionId
+        const removeReact = await Thought.findByIdAndUpdate({_id:thoughtId}, //find a thought by its id
+        {$pull: { reactions: {_id: reactionId}}}, //find a reaction stored in a thought by reactionId
         {new: true}
         
-        );
+        ).populate({path:'reactions',select:'-__v'}).select('-__v');
     if (!removeReact) { //if no such thoughtId or reactionId exists
         return res.status(404).json({ message: "Oops! No thought or reaction found with that id." });
     }
