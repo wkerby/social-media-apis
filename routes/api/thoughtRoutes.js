@@ -119,6 +119,25 @@ router.delete('/:id', async (req,res) => {
 router.post('/:thoughtId/reactions', async(req,res) => {
     const thoughtId = req.params.thoughtId;
     const newReaction = await new Reaction
+    try {
+        const specThought = await Thought.findOneAndUpdate({_id:thoughtId}, //searching for the thought by its id
+            {$push: {reactions: req.body}}, //this will take req.body object and use it to create a new reaction in the thought's reaction array
+            {new: true, runValidators: true});
+        
+        if (!specThought) { //if the search comes up empty
+            return res.status(404).json({ message: "Oops! No thought found with that id."});
+        }
+        else {
+            res.status(200).json(specThought);
+        }
+        
+
+    }
+
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 })
 
 module.exports = router;
